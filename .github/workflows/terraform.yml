@@ -37,18 +37,22 @@ jobs:
     # Step 4: Initialize Terraform
     - name: Terraform Init
       run: terraform init
+      working-directory: ./Env/dev
 
     # Step 5: Validate Terraform files
     - name: Terraform Validate
       run: terraform validate
+      working-directory: ./Env/dev
 
     # Step 6: Format Check
     - name: Terraform Format
       run: terraform fmt -check
+      working-directory: ./Env/dev
 
     # Step 7: Terraform Plan
     - name: Terraform Plan
       run: terraform plan -input=false
+      working-directory: ./Env/dev
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
@@ -59,6 +63,7 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
+      working-directory: ./Env/dev
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
